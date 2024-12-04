@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtils {
-    public static void searchPatternInFile(Pattern pattern, String path) {
+    public static void searchPatternInFile(Pattern pattern, String path, boolean reverse) {
         String line;
         try {
             FileReader fileReader= new FileReader(path, StandardCharsets.UTF_8);
@@ -17,6 +17,11 @@ public class FileUtils {
             line = file.readLine();
             while (line!=null){
                 Matcher matcher = pattern.matcher(line);
+                if (reverse) {
+                    if (!matcher.find()) {
+                        System.out.println("Pattern not found in line: "+line);
+                    }
+                } else
                 if (matcher.find()){
                     System.out.println("Pattern found in line: "+line);
                 }
@@ -28,24 +33,35 @@ public class FileUtils {
         }
     }
 
+
     public static void searchStringInFile(String patternSearched, String path) {
         Pattern pattern = Pattern.compile(patternSearched);
-        searchPatternInFile(pattern, path);
+        searchPatternInFile(pattern, path, false);
+    }
+
+    public static void searchStringInFile(String patternSearched, String path, boolean reverse) {
+        Pattern pattern = Pattern.compile(patternSearched);
+        searchPatternInFile(pattern, path, reverse);
     }
 
     public static void searchStringInFileCaseInsensitive(String patternSearched, String path) {
         Pattern pattern = Pattern.compile(patternSearched, Pattern.CASE_INSENSITIVE);
-        searchPatternInFile(pattern, path);
+        searchPatternInFile(pattern, path, false);
     }
 
-    public static void searchInFile(String request) throws FileNotFoundException {
+    public static void searchStringInFileCaseInsensitive(String patternSearched, String path, boolean reverse) {
+        Pattern pattern = Pattern.compile(patternSearched, Pattern.CASE_INSENSITIVE);
+        searchPatternInFile(pattern, path, reverse);
+    }
+
+    public static void searchInFile(String request) throws FileNotFoundException, InvalidRequestException {
         String regexSeparator = " ";
         String[] requestWords = request.split(regexSeparator);
 
         String regexExtensionFile = ".txt";
 
         if (requestWords.length < 3 || requestWords.length > 4) {
-            System.out.println("Invalid request, not enough or too many arguments");
+            throw new InvalidRequestException("Invalid request, not enough or too many arguments");
         }
 
         if (requestWords[0].equals("search") && requestWords[requestWords.length-1].endsWith(regexExtensionFile)) {
@@ -54,12 +70,18 @@ public class FileUtils {
             } else {
                 if (requestWords[1].equals("-i")) {
                     searchStringInFileCaseInsensitive(requestWords[2], requestWords[3]);
+                }
+                else if (requestWords[1].equals("-v")) {
+                    searchStringInFile(requestWords[2], requestWords[3], true);
+                }
+                else if (requestWords[1].equals("-v-i") || requestWords[1].equals("-i-v")) {
+                    searchStringInFileCaseInsensitive(requestWords[2], requestWords[3], true);
                 } else {
-                    System.out.println("Invalid request, additional argument not recognized");
+                    throw new InvalidRequestException("Invalid request, additional argument not recognized");
                 }
             }
         } else {
-            System.out.println("Invalid request, search keyword not found");
+            throw new InvalidRequestException("Invalid request, search keyword not found");
         }
     }
 }
