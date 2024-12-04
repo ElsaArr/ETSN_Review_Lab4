@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 ### Private data ###
-/src/main/java/org/example/PrivatePaths.java
+/src/main/java/org/example/PrivatePathsEnum.java
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
