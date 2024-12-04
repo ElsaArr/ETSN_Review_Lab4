@@ -8,10 +8,11 @@ public class Main {
         // Put your path in a private enum with the same model
         // as PublicPathsEnum and call it PrivatePathsEnum
         String path = PrivatePathsEnum.FILE_PATH_TEST_ERRORS.getPath();
-        String searchWord = "type";
+        String searchPattern = "<\\w>";
+//        String searchPattern = "type";
 
         try {
-            FileUtils.searchStringInFile(searchWord, path) ;
+            FileUtils.searchStringInFile(searchPattern, path) ;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
