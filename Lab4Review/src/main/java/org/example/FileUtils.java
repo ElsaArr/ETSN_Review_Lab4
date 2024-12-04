@@ -8,7 +8,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * FileUtils class contains methods to search for a pattern in a file
+ */
 public class FileUtils {
+
+    /**
+     * searchPatternInFile method searches for a pattern in a file
+     * @param pattern the pattern to search for
+     * @param path the path of the file to search in
+     * @param reverse if true, the method will print the lines where the pattern is not found
+     */
     public static void searchPatternInFile(Pattern pattern, String path, boolean reverse) {
         String line;
         try {
@@ -33,27 +43,56 @@ public class FileUtils {
         }
     }
 
-
+    /**
+     * searchStringInFile method searches for a pattern in a file
+     * @param patternSearched
+     * @param path
+     * By default, the search is case sensitive
+     */
     public static void searchStringInFile(String patternSearched, String path) {
         Pattern pattern = Pattern.compile(patternSearched);
         searchPatternInFile(pattern, path, false);
     }
 
+    /**
+     * searchStringInFileCaseInsensitive method searches for a pattern in a file
+     * @param patternSearched
+     * @param path
+     */
     public static void searchStringInFile(String patternSearched, String path, boolean reverse) {
         Pattern pattern = Pattern.compile(patternSearched);
         searchPatternInFile(pattern, path, reverse);
     }
 
+    /**
+     * searchStringInFileCaseInsensitive method searches for a pattern in a file
+     * with case insensitive search
+     * @param patternSearched
+     * @param path
+     */
     public static void searchStringInFileCaseInsensitive(String patternSearched, String path) {
         Pattern pattern = Pattern.compile(patternSearched, Pattern.CASE_INSENSITIVE);
         searchPatternInFile(pattern, path, false);
     }
 
+    /**
+     * searchStringInFileCaseInsensitive method searches for a pattern in a file
+     * with case insensitive search
+     * @param patternSearched
+     * @param path
+     * @param reverse if true, the method will print the lines where the pattern is not found
+     */
     public static void searchStringInFileCaseInsensitive(String patternSearched, String path, boolean reverse) {
         Pattern pattern = Pattern.compile(patternSearched, Pattern.CASE_INSENSITIVE);
         searchPatternInFile(pattern, path, reverse);
     }
 
+    /**
+     * searchInFile method searches for a pattern in a file
+     * @param request syntax : search [-i] [-v] [-v-i] [-i-v] pattern file.txt
+     * @throws FileNotFoundException if the file is not found or readable
+     * @throws InvalidRequestException if the request is invalid
+     */
     public static void searchInFile(String request) throws FileNotFoundException, InvalidRequestException {
         String regexSeparator = " ";
         String[] requestWords = request.split(regexSeparator);
