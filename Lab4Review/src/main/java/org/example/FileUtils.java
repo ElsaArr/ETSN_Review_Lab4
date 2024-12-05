@@ -22,17 +22,16 @@ public class FileUtils {
     public static void searchPatternInFile(Pattern pattern, String path, boolean reverse) {
         String line;
         try {
-            FileReader fileReader= new FileReader(path, StandardCharsets.UTF_8);
-            BufferedReader file=new BufferedReader(fileReader);
+            FileReader fileReader= new FileReader(path, StandardCharsets.UTF_8); // to read the file
+            BufferedReader file=new BufferedReader(fileReader); // to read the file line by line
             line = file.readLine();
             while (line!=null){
-                Matcher matcher = pattern.matcher(line);
+                Matcher matcher = pattern.matcher(line); // to search for the pattern in the line
                 if (reverse) {
                     if (!matcher.find()) {
                         System.out.println("Pattern not found in line: "+line);
                     }
-                } else
-                if (matcher.find()){
+                } else if (matcher.find()){
                     System.out.println("Pattern found in line: "+line);
                 }
                 line=file.readLine();
@@ -44,7 +43,7 @@ public class FileUtils {
     }
 
     /**
-     * searchStringInFile method searches for a pattern in a file
+     * searchStringInFile default method searches for a pattern in a file
      * @param patternSearched
      * @param path
      * By default, the search is case sensitive
@@ -58,6 +57,7 @@ public class FileUtils {
      * searchStringInFileCaseInsensitive method searches for a pattern in a file
      * @param patternSearched
      * @param path
+     * @param reverse if true, the method will print the lines where the pattern is not found
      */
     public static void searchStringInFile(String patternSearched, String path, boolean reverse) {
         Pattern pattern = Pattern.compile(patternSearched);
@@ -65,7 +65,7 @@ public class FileUtils {
     }
 
     /**
-     * searchStringInFileCaseInsensitive method searches for a pattern in a file
+     * searchStringInFileCaseInsensitive default method searches for a pattern in a file
      * with case insensitive search
      * @param patternSearched
      * @param path
@@ -95,7 +95,7 @@ public class FileUtils {
      */
     public static void searchInFile(String request) throws FileNotFoundException, InvalidRequestException {
         String regexSeparator = " ";
-        String[] requestWords = request.split(regexSeparator);
+        String[] requestWords = request.split(regexSeparator); // to split the request into words
 
         String regexExtensionFile = ".txt";
 
@@ -107,16 +107,19 @@ public class FileUtils {
             if (requestWords.length == 3 ) {
                 searchStringInFile(requestWords[1], requestWords[2]);
             } else {
-                if (requestWords[1].equals("-i")) {
-                    searchStringInFileCaseInsensitive(requestWords[2], requestWords[3]);
-                }
-                else if (requestWords[1].equals("-v")) {
-                    searchStringInFile(requestWords[2], requestWords[3], true);
-                }
-                else if (requestWords[1].equals("-v-i") || requestWords[1].equals("-i-v")) {
-                    searchStringInFileCaseInsensitive(requestWords[2], requestWords[3], true);
-                } else {
-                    throw new InvalidRequestException("Invalid request, additional argument not recognized");
+                switch (requestWords[1]) {
+                    case "-i":
+                        searchStringInFileCaseInsensitive(requestWords[2], requestWords[3]);
+                        break;
+                    case "-v":
+                        searchStringInFile(requestWords[2], requestWords[3], true);
+                        break;
+                    case "-v-i":
+                    case "-i-v":
+                        searchStringInFileCaseInsensitive(requestWords[2], requestWords[3], true);
+                        break;
+                    default:
+                        throw new InvalidRequestException("Invalid request, additional argument not recognized");
                 }
             }
         } else {
