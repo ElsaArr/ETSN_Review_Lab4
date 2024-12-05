@@ -1,0 +1,32 @@
+apple
+banana
+cherry
+date
+elephant
+fox
+grape
+house
+internet
+jungle
+kangaroo
+lemon
+mountain
+notebook
+octopus
+pencil
+queen
+rainbow
+sunset
+tree
+umbrella
+violet
+waterfall
+xylophone
+yacht
+zebra
+Life is beautiful
+The quick brown fox jumps over the lazy dog
+Hello world
+Java is fun
+Find the hidden word!
+Coding is creative

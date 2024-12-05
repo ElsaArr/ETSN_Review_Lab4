@@ -89,7 +89,7 @@ public class FileUtils {
 
     /**
      * searchInFile method searches for a pattern in a file
-     * @param request syntax : search [-i] [-v] [-v-i] [-i-v] pattern file.txt
+     * @param request syntax : search [-i] [-v] [-v-i] [-i-v] pattern file.txt 
      * @throws FileNotFoundException if the file is not found or readable
      * @throws InvalidRequestException if the request is invalid
      */
